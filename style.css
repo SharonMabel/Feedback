@@ -105,3 +105,9 @@ body {
 .lock-button:hover {
     background: #218838;
 }
+.action-item img {
+    width: 50%; /* Verkleinert die Bilder auf 50% der ursprünglichen Breite */
+    height: auto; /* Beibehaltung des Seitenverhältnisses */
+    display: block; /* Verhindert, dass Bilder nebeneinander erscheinen */
+    margin: 0 auto; /* Zentriert die Bilder innerhalb des Containers */
+}
