@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback Tool</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div id="app">
@@ -21,12 +23,15 @@
             <form id="feedback-form">
                 <label for="name">Name:</label>
                 <input type="text" id="name" required>
+                <button type="button" class="lock-button">✔️</button>
                 
                 <label for="date">Datum:</label>
                 <input type="date" id="date" required>
+                <button type="button" class="lock-button">✔️</button>
                 
                 <label for="unit">Unterrichtseinheit:</label>
                 <input type="text" id="unit" required>
+                <button type="button" class="lock-button">✔️</button>
                 
                 <h3>Ziehe die Aktionen in die passenden Kategorien:</h3>
                 <div class="categories">

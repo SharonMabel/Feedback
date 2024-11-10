@@ -3,6 +3,17 @@ const actionItems = document.querySelectorAll('.action-item');
 const categories = document.querySelectorAll('.category');
 const saveButton = document.getElementById('save-button');
 
+// Lock Button Funktionalität
+const lockButtons = document.querySelectorAll('.lock-button');
+lockButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const input = button.previousElementSibling;
+        input.disabled = true;
+        button.disabled = true;
+    });
+});
+
+// Drag-and-Drop
 actionItems.forEach(item => {
     item.addEventListener('dragstart', () => {
         item.classList.add('dragging');
@@ -42,8 +53,23 @@ saveButton.addEventListener('click', event => {
     feedbackOverlay.innerHTML = '<div><span>😊</span><p>Danke für dein Feedback!</p></div>';
     mainContent.appendChild(feedbackOverlay);
 
-    // Seite nach 30 Sekunden neu laden
+    // Ergebnisse als PDF speichern
     setTimeout(() => {
+        saveAsPDF();
         location.reload();
     }, 30000);
 });
+
+// Ergebnisse als PDF speichern
+function saveAsPDF() {
+    const name = document.getElementById('name').value || 'Unbekannt';
+    const unit = document.getElementById('unit').value || 'Unbekannt';
+    const date = document.getElementById('date').value || 'Unbekannt';
+
+    html2canvas(document.body).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, 'PNG', 10, 10, 190, 0);
+        pdf.save(`${name}-${unit}-${date}.pdf`);
+    });
+}

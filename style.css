@@ -13,7 +13,7 @@ body {
 
 .sidebar {
     background: #f4f4f4;
-    width: 25%;
+    width: 20%;
     padding: 1em;
     border-right: 1px solid #ddd;
 }
@@ -58,12 +58,16 @@ body {
     text-align: center;
 }
 
-.category:first-child {
-    margin-left: 0;
+#super {
+    background-color: #d4edda;
 }
 
-.category:last-child {
-    margin-right: 0;
+#neutral {
+    background-color: #fff3cd;
+}
+
+#bad {
+    background-color: #f8d7da;
 }
 
 #save-button {
@@ -83,4 +87,21 @@ body {
 #save-button:disabled {
     background: #ddd;
     cursor: not-allowed;
+}
+
+.lock-button {
+    margin-left: 0.5em;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0.25em 0.5em;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9em;
+}
+
+.lock-button:hover {
+    background: #218838;
 }
