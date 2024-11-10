@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <aside class="sidebar">
+            <h2>Aktionen</h2>
+            <div class="action-list">
+                <div class="action-item" draggable="true" data-action="1">Aktion 1</div>
+                <div class="action-item" draggable="true" data-action="2">Aktion 2</div>
+                <div class="action-item" draggable="true" data-action="3">Aktion 3</div>
+            </div>
+        </aside>
+        <main class="main-content">
+            <h1>Feedback zur Unterrichtseinheit</h1>
+            <form id="feedback-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" required>
+                
+                <label for="date">Datum:</label>
+                <input type="date" id="date" required>
+                
+                <label for="unit">Unterrichtseinheit:</label>
+                <input type="text" id="unit" required>
+                
+                <h3>Ziehe die Aktionen in die passenden Kategorien:</h3>
+                <div class="categories">
+                    <div class="category" id="super">Finde ich super</div>
+                    <div class="category" id="neutral">Weiß nicht wie ich dazu stehe</div>
+                    <div class="category" id="bad">Finde ich blöd</div>
+                </div>
+                
+                <label for="feedback">Freitext:</label>
+                <textarea id="feedback" rows="4" placeholder="Schreibe hier deine Meinung (optional)"></textarea>
+                
+                <button type="submit" id="save-button">Speichern</button>
+            </form>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
