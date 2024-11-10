@@ -25,10 +25,12 @@ actionItems.forEach(item => {
 });
 
 categories.forEach(category => {
+    const dropContainer = category.querySelector('.drop-container');
     category.addEventListener('dragover', event => {
         event.preventDefault();
         const dragging = document.querySelector('.dragging');
-        category.appendChild(dragging);
+        // Element am Anfang des Drop-Containers einfügen
+        dropContainer.insertBefore(dragging, dropContainer.firstChild);
     });
 });
 
@@ -53,23 +55,31 @@ saveButton.addEventListener('click', event => {
     feedbackOverlay.innerHTML = '<div><span>😊</span><p>Danke für dein Feedback!</p></div>';
     mainContent.appendChild(feedbackOverlay);
 
-    // Ergebnisse als PDF speichern
+    // Ergebnisse als PNG speichern
     setTimeout(() => {
         saveAsPDF();
         location.reload();
     }, 30000);
 });
 
-// Ergebnisse als PDF speichern
-function saveAsPDF() {
+// Ergebnisse als PNG speichern
+function saveAsPNG() {
     const name = document.getElementById('name').value || 'Unbekannt';
     const unit = document.getElementById('unit').value || 'Unbekannt';
     const date = document.getElementById('date').value || 'Unbekannt';
 
-    html2canvas(document.body).then(canvas => {
+    // Wähle den relevanten Bereich aus
+    const content = document.querySelector('.main-content');
+
+    html2canvas(content).then(canvas => {
         const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF();
-        pdf.addImage(imgData, 'PNG', 10, 10, 190, 0);
-        pdf.save(`${name}-${unit}-${date}.pdf`);
+        
+        // Erstelle einen Download-Link
+        const link = document.createElement('a');
+        link.href = imgData;
+        link.download = `${name}-${unit}-${date}.png`;
+        link.click();
+    }).catch(error => {
+        console.error("Fehler beim Rendern des Bereichs:", error);
     });
 }

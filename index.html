@@ -6,7 +6,6 @@
     <title>Feedback Tool</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div id="app">
@@ -29,7 +28,7 @@
                     <img src="https://sharonmabel.github.io/Feedback/images/Ich%20habe%20mich%20beim%20Arbeiten%20gut%20konzentrierit.png" alt="Konzentration beim Arbeiten">
                 </div>
                 <div class="action-item" draggable="true" data-action="6">
-                    <img src="https://sharonmabel.github.io/Feedback/images/Ich%20habe%20mich%20in%20der%20Gruppe%20wohl%20gef%C3%BChlt.png" alt="In der Gruppe wohlgefühlt">
+                    <img src="https://sharonmabel.github.io/Feedback/images/Ich%20habe%20mich%20in%20der%20Gruppe%20wohlgef%C3%BChlt.png" alt="In der Gruppe wohlgefühlt">
                 </div>
                 <div class="action-item" draggable="true" data-action="7">
                     <img src="https://sharonmabel.github.io/Feedback/images/Ich%20habe%20mich%20unterst%C3%BCtzt%20gef%C3%BChlt.png" alt="Unterstützt gefühlt">
@@ -68,15 +67,23 @@
                 
                 <h3>Ziehe die Aktionen in die passenden Kategorien:</h3>
                 <div class="categories">
-                    <div class="category" id="agree">Stimme ich zu</div>
-                    <div class="category" id="neutral">Weiß nicht</div>
-                    <div class="category" id="disagree">Stimme ich nicht zu</div>
-                </div>
-                
+                    <div class="category" id="agree">
+                        <h4>Stimme ich zu</h4>
+                        <div class="drop-container"></div>
+                    </div>
+                    <div class="category" id="neutral">
+                        <h4>Weiß nicht</h4>
+                        <div class="drop-container"></div>
+                    </div>
+                    <div class="category" id="disagree">
+                        <h4>Stimme ich nicht zu</h4>
+                        <div class="drop-container"></div>
+                    </div>
+                </div>                
                 <label for="feedback">Freitext:</label>
                 <textarea id="feedback" rows="4" placeholder="Schreibe hier deine Meinung (optional)"></textarea>
                 
-                <button type="submit" id="save-button">Speichern</button>
+                <button type="button" onclick="saveAsPNG()">Als PNG speichern</button>
             </form>
         </main>
     </div>

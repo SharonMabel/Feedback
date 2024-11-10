@@ -135,3 +135,7 @@ body {
     font-weight: bold;
     flex: 1;
 }
+.drop-container {
+    min-height: 100px; /* Platz für Drag-and-Drop-Elemente */
+    margin-top: 10px;
+}
