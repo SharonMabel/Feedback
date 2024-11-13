@@ -64,22 +64,27 @@ saveButton.addEventListener('click', event => {
 
 // Ergebnisse als PNG speichern
 function saveAsPNG() {
-    const name = document.getElementById('name').value || 'Unbekannt';
-    const unit = document.getElementById('unit').value || 'Unbekannt';
-    const date = document.getElementById('date').value || 'Unbekannt';
-
-    // Wähle den relevanten Bereich aus
-    const content = document.querySelector('.main-content');
-
-    html2canvas(content).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        
-        // Erstelle einen Download-Link
-        const link = document.createElement('a');
-        link.href = imgData;
-        link.download = `${name}-${unit}-${date}.png`;
+    // Warte 1 Sekunde, damit alle Elemente initialisiert sind
+    setTimeout(function() {
+      html2canvas(document.getElementById('app')).then(function(canvas) {
+        var link = document.createElement('a');
+        link.download = 'feedback.png';
+        link.href = canvas.toDataURL();
         link.click();
-    }).catch(error => {
-        console.error("Fehler beim Rendern des Bereichs:", error);
-    });
-}
+  
+        // Wähle den relevanten Bereich aus
+        const content = document.querySelector('.main-content');
+        html2canvas(content).then(canvas => {
+          const imgData = canvas.toDataURL('image/png');
+          
+          // Erstelle einen Download-Link
+          const link = document.createElement('a');
+          link.href = imgData;
+          link.download = `${name}-${unit}-${date}.png`;
+          link.click();
+        }).catch(error => {
+          console.error("Fehler beim Rendern des Bereichs:", error);
+        });
+      });
+    }, 1000);
+  }
