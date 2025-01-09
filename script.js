@@ -39,7 +39,6 @@ categories.forEach(category => {
         }
     });
 });
-
 function saveAsFullPagePNG() {
     const name = document.getElementById('name').value.trim() || 'unbekannt';
     const date = document.getElementById('date').value || new Date().toISOString().split('T')[0];
@@ -50,14 +49,23 @@ function saveAsFullPagePNG() {
 
     const feedbackSection = document.getElementById('app');
 
-    // Screenshot der gesamten Seite
+    // Scrollbare Höhe und Breite erfassen
+    const originalWidth = feedbackSection.scrollWidth;
+    const originalHeight = feedbackSection.scrollHeight;
+
+    // Temporär die Größe anpassen, um die gesamte Seite zu erfassen
+    feedbackSection.style.width = `${originalWidth}px`;
+    feedbackSection.style.height = `${originalHeight}px`;
+
     html2canvas(feedbackSection, {
         useCORS: true,
-        scrollX: 0,
-        scrollY: 0,
-        windowWidth: document.body.scrollWidth,
-        windowHeight: document.body.scrollHeight
+        windowWidth: originalWidth,
+        windowHeight: originalHeight
     }).then(canvas => {
+        // Größe zurücksetzen
+        feedbackSection.style.width = "";
+        feedbackSection.style.height = "";
+
         // Speichern als PNG
         const link = document.createElement('a');
         link.download = `Feedback_${sanitizedName}_${sanitizedUnit}_${date}.png`;
