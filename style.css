@@ -71,12 +71,6 @@ body {
     background: #0056b3;
 }
 
-.categories {
-    display: flex;
-    gap: 1em;
-    margin-top: 2em;
-}
-
 .category {
     flex: 1;
     padding: 1em;
@@ -160,27 +154,35 @@ html, body {
     overflow: visible;
 }
 .horizontal-categories {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
+    display: flex; /* Flexbox-Layout */
+    flex-wrap: nowrap; /* Kein Umbruch */
+    justify-content: space-around; /* Gleichmäßige Verteilung */
+    align-items: flex-start; /* Oben ausgerichtet */
     margin-top: 20px;
     gap: 20px;
+    overflow-x: auto; /* Horizontal scrollen, falls nötig */
 }
 
+
 .category {
-    width: 30%;
-    min-height: 400px; /* Platz für Drag-and-Drop */
+    flex: 0 0 30%; /* Jede Kategorie nimmt 30% der Breite ein */
+    min-width: 250px; /* Mindestbreite für kleine Bildschirme */
+    max-width: 400px; /* Maximale Breite */
+    min-height: 400px; /* Einheitliche Höhe */
+    padding: 10px;
+    text-align: center;
     border: 2px solid #ccc;
     border-radius: 10px;
     background-color: #f9f9f9;
-    padding: 10px;
-    text-align: center;
-    overflow-y: auto; /* Falls die Kategorie zu viele Elemente enthält */
+    overflow-y: auto; /* Scrollbar innerhalb der Kategorie, falls nötig */
 }
 
+
 .category h4 {
+    font-size: 1.2em; /* Überschriften gut lesbar */
     margin-bottom: 10px;
 }
+
 
 .drop-container {
     min-height: 350px;
