@@ -1,19 +1,23 @@
-// Drag-and-Drop Funktionalität
-const actionItems = document.querySelectorAll('.action-item');
-const categories = document.querySelectorAll('.category');
-const saveButton = document.getElementById('save-button');
+document.addEventListener('DOMContentLoaded', function() {
+    // Prevent right-click
+    document.addEventListener('contextmenu', event => event.preventDefault());
 
-// Lock Button Funktionalität
-const lockButtons = document.querySelectorAll('.lock-button');
-lockButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const input = button.previousElementSibling;
-        input.disabled = true;
-        button.disabled = true;
+    // Prevent keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && 
+            (e.key === 's' || e.key === 'p' || e.key === 'u' || e.key === 'i')) {
+            e.preventDefault();
+        }
     });
+
+    // Set current date
+    document.getElementById('date').valueAsDate = new Date();
 });
 
-// Drag-and-Drop
+// Drag-and-Drop functionality
+const actionItems = document.querySelectorAll('.action-item');
+const categories = document.querySelectorAll('.category');
+
 actionItems.forEach(item => {
     item.addEventListener('dragstart', () => {
         item.classList.add('dragging');
@@ -26,79 +30,63 @@ actionItems.forEach(item => {
 
 categories.forEach(category => {
     const dropContainer = category.querySelector('.drop-container');
+    
     category.addEventListener('dragover', event => {
         event.preventDefault();
         const dragging = document.querySelector('.dragging');
-        // Element am Anfang des Drop-Containers einfügen
-        dropContainer.insertBefore(dragging, dropContainer.firstChild);
+        if (dragging) {
+            dropContainer.insertBefore(dragging, dropContainer.firstChild);
+        }
     });
 });
 
-// Aktualisierte Save-Button-Funktion
-saveButton.addEventListener('click', event => {
-    event.preventDefault();
-    saveButton.disabled = true;
-
-    // Zeige Feedback
-    const mainContent = document.querySelector('.main-content');
-    const feedbackOverlay = document.createElement('div');
-    feedbackOverlay.style.position = 'absolute';
-    feedbackOverlay.style.top = '0';
-    feedbackOverlay.style.left = '0';
-    feedbackOverlay.style.width = '100%';
-    feedbackOverlay.style.height = '100%';
-    feedbackOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-    feedbackOverlay.style.display = 'flex';
-    feedbackOverlay.style.justifyContent = 'center';
-    feedbackOverlay.style.alignItems = 'center';
-    feedbackOverlay.style.fontSize = '1.5em';
-    feedbackOverlay.innerHTML = '<div><span>😊</span><p>Danke für dein Feedback!</p></div>';
-    mainContent.appendChild(feedbackOverlay);
-
-    // Speichern und Reload
-    setTimeout(() => {
-        saveAsPNG(); // Screenshot mit personalisierten Dateinamen
-        location.reload();
-    }, 2000); // Kürzere Wartezeit
-});
-
-// Ergebnisse als PNG speichern - optimierte Version mit Namensergänzung
 function saveAsPNG() {
-    // Suche nach den Eingabefeldern für Name, Datum und Unterrichtseinheit
-    const nameInput = document.querySelector('input[placeholder="Name"]');
-    const dateInput = document.querySelector('input[placeholder="Datum"]');
-    const unitInput = document.querySelector('input[placeholder="Unterrichtseinheit"]');
+    const name = document.getElementById('name').value.trim() || 'unbekannt';
+    const date = document.getElementById('date').value || new Date().toISOString().split('T')[0];
+    const unit = document.getElementById('unit').value.trim() || 'einheit';
 
-    // Standardwerte, falls Felder leer sind
-    const name = nameInput ? (nameInput.value.trim() || 'unbekannt') : 'unbekannt';
-    const date = dateInput ? (dateInput.value || new Date().toISOString().split('T')[0]) : new Date().toISOString().split('T')[0];
-    const unit = unitInput ? (unitInput.value.trim() || 'einheit') : 'einheit';
+    const sanitizedName = name.replace(/[^a-zA-ZäöüÄÖÜß0-9-_\s]/g, '').replace(/\s+/g, '_');
+    const sanitizedUnit = unit.replace(/[^a-zA-ZäöüÄÖÜß0-9-_\s]/g, '').replace(/\s+/g, '_');
 
-    // Entferne Sonderzeichen aus dem Dateinamen und ersetze Leerzeichen
-    const sanitizedName = name.replace(/[^a-zA-ZäöüÄÖÜß0-9-_\s]/g, '')
-                               .replace(/\s+/g, '_')
-                               .trim();
-    const sanitizedUnit = unit.replace(/[^a-zA-ZäöüÄÖÜß0-9-_\s]/g, '')
-                               .replace(/\s+/g, '_')
-                               .trim();
-     // Warte kurz, damit alle Elemente initialisiert sind
-     setTimeout(function() {
-        html2canvas(document.body, {
-            scrollX: 0,
-            scrollY: -window.scrollY,
-            windowWidth: document.documentElement.scrollWidth,
-            windowHeight: document.documentElement.scrollHeight,
-            scale: window.devicePixelRatio,
-            useCORS: true
-        }).then(function(canvas) {
-            // Generiere einen eindeutigen Dateinamen
+    const feedbackOverlay = document.createElement('div');
+    feedbackOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        font-size: 1.5em;
+    `;
+    feedbackOverlay.innerHTML = '<div>📸 Feedback wird gespeichert...</div>';
+    document.body.appendChild(feedbackOverlay);
+
+    setTimeout(() => {
+        html2canvas(document.getElementById('app'), {
+            width: 1920,
+            height: 1080,
+            scale: 1,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: '#ffffff'
+        }).then(canvas => {
             const link = document.createElement('a');
             link.download = `Feedback_${sanitizedName}_${sanitizedUnit}_${date}.png`;
             link.href = canvas.toDataURL('image/png');
             link.click();
+            
+            setTimeout(() => {
+                feedbackOverlay.remove();
+                location.reload();
+            }, 1000);
         }).catch(error => {
-            console.error("Fehler beim Rendern des Screenshots:", error);
-            alert('Es gab ein Problem beim Speichern des Screenshots. Bitte versuchen Sie es erneut.');
+            console.error("Screenshot error:", error);
+            alert('Fehler beim Speichern. Bitte erneut versuchen.');
+            feedbackOverlay.remove();
         });
     }, 500);
 }
