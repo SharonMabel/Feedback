@@ -65,19 +65,34 @@ function saveAsPNG() {
     feedbackOverlay.innerHTML = '<div>📸 Feedback wird gespeichert...</div>';
     document.body.appendChild(feedbackOverlay);
 
+    // Temporär Overflow auf visible setzen
+    const originalOverflow = document.body.style.overflow;
+    const originalHeight = document.body.style.height;
+    document.body.style.overflow = 'visible';
+    document.body.style.height = 'auto';
+
     setTimeout(() => {
-        html2canvas(document.getElementById('app'), {
-            width: 1920,
-            height: 1080,
-            scale: 1,
+        html2canvas(document.body, {
             useCORS: true,
             allowTaint: true,
-            backgroundColor: '#ffffff'
+            backgroundColor: '#ffffff',
+            height: document.body.scrollHeight,
+            windowHeight: document.body.scrollHeight,
+            scrollY: 0,
+            scrollX: 0,
+            onclone: function(clonedDoc) {
+                clonedDoc.body.style.overflow = 'visible';
+                clonedDoc.body.style.height = 'auto';
+            }
         }).then(canvas => {
             const link = document.createElement('a');
             link.download = `Feedback_${sanitizedName}_${sanitizedUnit}_${date}.png`;
             link.href = canvas.toDataURL('image/png');
             link.click();
+            
+            // Ursprüngliche Styles wiederherstellen
+            document.body.style.overflow = originalOverflow;
+            document.body.style.height = originalHeight;
             
             setTimeout(() => {
                 feedbackOverlay.remove();
@@ -87,6 +102,10 @@ function saveAsPNG() {
             console.error("Screenshot error:", error);
             alert('Fehler beim Speichern. Bitte erneut versuchen.');
             feedbackOverlay.remove();
+            
+            // Ursprüngliche Styles wiederherstellen
+            document.body.style.overflow = originalOverflow;
+            document.body.style.height = originalHeight;
         });
     }, 500);
 }
