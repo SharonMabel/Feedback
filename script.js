@@ -48,64 +48,61 @@ function saveAsPNG() {
     const sanitizedName = name.replace(/[^a-zA-ZäöüÄÖÜß0-9-_\s]/g, '').replace(/\s+/g, '_');
     const sanitizedUnit = unit.replace(/[^a-zA-ZäöüÄÖÜß0-9-_\s]/g, '').replace(/\s+/g, '_');
 
-    const feedbackOverlay = document.createElement('div');
-    feedbackOverlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(255, 255, 255, 0.9);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        font-size: 1.5em;
-    `;
-    feedbackOverlay.innerHTML = '<div>📸 Feedback wird gespeichert...</div>';
-    document.body.appendChild(feedbackOverlay);
-
-    // Temporär Overflow auf visible setzen
+    // Styles für Screenshot vorbereiten
     const originalOverflow = document.body.style.overflow;
     const originalHeight = document.body.style.height;
     document.body.style.overflow = 'visible';
     document.body.style.height = 'auto';
 
-    setTimeout(() => {
-        html2canvas(document.body, {
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: '#ffffff',
-            height: document.body.scrollHeight,
-            windowHeight: document.body.scrollHeight,
-            scrollY: 0,
-            scrollX: 0,
-            onclone: function(clonedDoc) {
-                clonedDoc.body.style.overflow = 'visible';
-                clonedDoc.body.style.height = 'auto';
-            }
-        }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = `Feedback_${sanitizedName}_${sanitizedUnit}_${date}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-            
-            // Ursprüngliche Styles wiederherstellen
-            document.body.style.overflow = originalOverflow;
-            document.body.style.height = originalHeight;
-            
-            setTimeout(() => {
-                feedbackOverlay.remove();
-                location.reload();
-            }, 1000);
-        }).catch(error => {
-            console.error("Screenshot error:", error);
-            alert('Fehler beim Speichern. Bitte erneut versuchen.');
-            feedbackOverlay.remove();
-            
-            // Ursprüngliche Styles wiederherstellen
-            document.body.style.overflow = originalOverflow;
-            document.body.style.height = originalHeight;
-        });
-    }, 500);
+    // Zuerst Screenshot erstellen
+    html2canvas(document.body, {
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        height: document.body.scrollHeight,
+        windowHeight: document.body.scrollHeight,
+        scrollY: 0,
+        scrollX: 0,
+        onclone: function(clonedDoc) {
+            clonedDoc.body.style.overflow = 'visible';
+            clonedDoc.body.style.height = 'auto';
+        }
+    }).then(canvas => {
+        // Screenshot speichern
+        const link = document.createElement('a');
+        link.download = `Feedback_${sanitizedName}_${sanitizedUnit}_${date}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+
+        // Styles zurücksetzen
+        document.body.style.overflow = originalOverflow;
+        document.body.style.height = originalHeight;
+
+        // Dann Overlay anzeigen
+        const feedbackOverlay = document.createElement('div');
+        feedbackOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            font-size: 1.5em;
+        `;
+        feedbackOverlay.innerHTML = '<div>📸 Feedback wurde gespeichert!</div>';
+        document.body.appendChild(feedbackOverlay);
+
+        setTimeout(() => {
+            location.reload();
+        }, 1500);
+    }).catch(error => {
+        console.error("Screenshot error:", error);
+        alert('Fehler beim Speichern. Bitte erneut versuchen.');
+        document.body.style.overflow = originalOverflow;
+        document.body.style.height = originalHeight;
+    });
 }
