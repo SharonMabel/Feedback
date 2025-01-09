@@ -3,64 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback Tool</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Feedback Formular</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #app {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            overflow-y: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4caf50;
+            margin-bottom: 20px;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .checkbox-group {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .checkbox-group span {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .checkbox-group label {
+            font-weight: normal;
+            margin-right: 15px;
+        }
+
+        .fancy-button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .fancy-button:hover {
+            background-color: #45a049;
+        }
+
+        .emoji {
+            font-size: 20px;
+            margin-left: 5px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
-        <header>
-            <h1>Feedback zur Unterrichtseinheit</h1>
-        </header>
-        <main>
-            <form id="feedback-form">
-                <!-- Schülerdetails -->
-                <div class="form-section">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" required>
+        <h1>Feedback Formular <span class="emoji">🎨</span></h1>
+        <form id="feedback-form">
+            <!-- Name Section -->
+            <div class="form-section">
+                <label for="name">Name <span class="emoji">👤</span>:</label>
+                <input type="text" id="name" required>
+            </div>
 
-                    <label for="date">Datum:</label>
-                    <input type="date" id="date" required>
+            <!-- Datum Section -->
+            <div class="form-section">
+                <label for="date">Datum <span class="emoji">📅</span>:</label>
+                <input type="date" id="date" required>
+            </div>
 
-                    <label for="unit">Unterrichtseinheit:</label>
-                    <input type="text" id="unit" required>
-                </div>
+            <!-- Checkbox Groups -->
+            <div class="checkbox-group">
+                <span>Die Atmosphäre war angenehm <span class="emoji">😊</span></span>
+                <label><input type="radio" name="atmosphere" value="agree"> Stimme zu</label>
+                <label><input type="radio" name="atmosphere" value="neutral"> Weiß nicht</label>
+                <label><input type="radio" name="atmosphere" value="disagree"> Stimme nicht zu</label>
+            </div>
 
-                <!-- Kategorien mit Aktionen -->
-                <div class="categories-wrapper">
-                    <div class="category-column" id="agree">
-                        <h4>Stimme ich zu</h4>
-                        <div class="drop-container">
-                            <!-- Drag-and-Drop Aktionen hierhin ziehen -->
-                        </div>
-                    </div>
-                    <div class="category-column" id="neutral">
-                        <h4>Weiß nicht</h4>
-                        <div class="drop-container">
-                            <!-- Drag-and-Drop Aktionen hierhin ziehen -->
-                        </div>
-                    </div>
-                    <div class="category-column" id="disagree">
-                        <h4>Stimme ich nicht zu</h4>
-                        <div class="drop-container">
-                            <!-- Drag-and-Drop Aktionen hierhin ziehen -->
-                        </div>
-                    </div>
-                </div>
+            <div class="checkbox-group">
+                <span>Ich habe meine Werkzeuge gut genutzt <span class="emoji">🔧</span></span>
+                <label><input type="radio" name="tools" value="agree"> Stimme zu</label>
+                <label><input type="radio" name="tools" value="neutral"> Weiß nicht</label>
+                <label><input type="radio" name="tools" value="disagree"> Stimme nicht zu</label>
+            </div>
 
-                <!-- Freitextfeld -->
-                <div class="form-section">
-                    <label for="feedback">Freitext:</label>
-                    <textarea id="feedback" rows="4" placeholder="Schreibe hier deine Meinung (optional)"></textarea>
-                </div>
+            <div class="checkbox-group">
+                <span>Ich habe mich wohlgefühlt <span class="emoji">💖</span></span>
+                <label><input type="radio" name="comfort" value="agree"> Stimme zu</label>
+                <label><input type="radio" name="comfort" value="neutral"> Weiß nicht</label>
+                <label><input type="radio" name="comfort" value="disagree"> Stimme nicht zu</label>
+            </div>
 
-                <!-- Speichern Button -->
-                <div class="form-section">
-                    <button type="button" id="save-button" onclick="saveAsPNG()">Speichern</button>
-                </div>
-            </form>
-        </main>
+            <div class="checkbox-group">
+                <span>Die Pausen waren ausreichend <span class="emoji">⏱️</span></span>
+                <label><input type="radio" name="breaks" value="agree"> Stimme zu</label>
+                <label><input type="radio" name="breaks" value="neutral"> Weiß nicht</label>
+                <label><input type="radio" name="breaks" value="disagree"> Stimme nicht zu</label>
+            </div>
+
+            <div class="checkbox-group">
+                <span>Ich habe etwas Neues gelernt <span class="emoji">📚</span></span>
+                <label><input type="radio" name="learning" value="agree"> Stimme zu</label>
+                <label><input type="radio" name="learning" value="neutral"> Weiß nicht</label>
+                <label><input type="radio" name="learning" value="disagree"> Stimme nicht zu</label>
+            </div>
+
+            <div class="checkbox-group">
+                <span>Ich habe mich unterstützt gefühlt <span class="emoji">🤝</span></span>
+                <label><input type="radio" name="support" value="agree"> Stimme zu</label>
+                <label><input type="radio" name="support" value="neutral"> Weiß nicht</label>
+                <label><input type="radio" name="support" value="disagree"> Stimme nicht zu</label>
+            </div>
+
+            <div class="checkbox-group">
+                <span>Ich hatte genug Zeit <span class="emoji">⏳</span></span>
+                <label><input type="radio" name="time" value="agree"> Stimme zu</label>
+                <label><input type="radio" name="time" value="neutral"> Weiß nicht</label>
+                <label><input type="radio" name="time" value="disagree"> Stimme nicht zu</label>
+            </div>
+
+            <div class="checkbox-group">
+                <span>Ich konnte die Aufgabe gut verstehen <span class="emoji">🧠</span></span>
+                <label><input type="radio" name="understanding" value="agree"> Stimme zu</label>
+                <label><input type="radio" name="understanding" value="neutral"> Weiß nicht</label>
+                <label><input type="radio" name="understanding" value="disagree"> Stimme nicht zu</label>
+            </div>
+
+            <div class="checkbox-group">
+                <span>Ich bin zufrieden mit meiner Arbeit <span class="emoji">👍</span></span>
+                <label><input type="radio" name="satisfaction" value="agree"> Stimme zu</label>
+                <label><input type="radio" name="satisfaction" value="neutral"> Weiß nicht</label>
+                <label><input type="radio" name="satisfaction" value="disagree"> Stimme nicht zu</label>
+            </div>
+
+            <!-- Freitextfeld -->
+            <div class="form-section">
+                <label for="feedback">Freitext <span class="emoji">✍️</span>:</label>
+                <textarea id="feedback" rows="5" placeholder="Teile deine Meinung mit..."></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-section">
+                <button type="button" class="fancy-button" onclick="saveFeedback()">Feedback speichern <span class="emoji">💾</span></button>
+            </div>
+        </form>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        function saveFeedback() {
+            const name = document.getElementById('name').value.trim() || 'Unbekannt';
+            const date = document.getElementById('date').value || new Date().toISOString().split('T')[0];
+            const feedback = document.getElementById('feedback').value.trim() || 'Keine Eingabe';
+
+            let results = `Name: ${name}\nDatum: ${date}\n\nFeedback:\n`;
+
+            const questions = document.querySelectorAll('.checkbox-group');
+            questions.forEach(group => {
+                const questionText = group.querySelector('span').innerText;
+                const selected = group.querySelector('input:checked');
+                const answer = selected ? selected.parentNode.innerText.trim() : 'Keine Auswahl';
+                results += `${questionText}: ${answer}\n`;
+            });
+
+            results += `\nFreitext:\n${feedback}`;
+
+            const blob = new Blob([results], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Feedback_${name}_${date}.txt`;
+            link.click();
+
+            alert('Feedback wurde gespeichert!');
+        }
+    </script>
 </body>
 </html>
