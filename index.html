@@ -5,102 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback Tool</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <div id="app">
-        <aside class="sidebar">
-            <h2>Aktionen</h2>
-            <div class="action-list">
-                <div class="action-item" draggable="true" data-action="1">
-                    <img src="https://sharonmabel.github.io/Feedback/images/Die%20Atmosph%C3%A4re%20in%20der%20Werkstatt%20war%20angenehm.png" alt="Atmosphäre angenehm" crossorigin="anonymous">
+        <header>
+            <h1>Feedback zur Unterrichtseinheit</h1>
+        </header>
+        <main>
+            <form id="feedback-form">
+                <!-- Schülerdetails -->
+                <div class="form-section">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" required>
+
+                    <label for="date">Datum:</label>
+                    <input type="date" id="date" required>
+
+                    <label for="unit">Unterrichtseinheit:</label>
+                    <input type="text" id="unit" required>
                 </div>
-                <div class="action-item" draggable="true" data-action="2">
-                    <img src="https://sharonmabel.github.io/Feedback/images/Die%20Pausen%20haben%20es%20angenehmer%20f%C3%BCr%20mich%20gemacht.png" alt="Pausen angenehm" crossorigin="anonymous">
-                </div>
-                <div class="action-item" draggable="true" data-action="3">
-                    <img src="https://sharonmabel.github.io/Feedback/images/Ich%20habe%20meine%20Werkzeuge%20und%20Materialien%20gut%20genutzt.png" alt="Werkzeuge gut genutzt" crossorigin="anonymous">
-                </div>
-                <div class="action-item" draggable="true" data-action="4">
-                    <img src="https://sharonmabel.github.io/Feedback/images/Ich%20habe%20meinen%20Beitrag%20zur%20Gruppenarbeit%20geleistet.png" alt="Beitrag Gruppenarbeit" crossorigin="anonymous">
-                </div>
-                <div class="action-item" draggable="true" data-action="5">
-                    <img src="https://sharonmabel.github.io/Feedback/images/Ich%20habe%20mich%20beim%20Arbeiten%20gut%20konzentrierit.png" alt="Konzentration beim Arbeiten" crossorigin="anonymous">
-                </div>
-                <div class="action-item" draggable="true" data-action="6">
-                    <img src="https://sharonmabel.github.io/Feedback/images/Ich%20habe%20mich%20in%20der%20Gruppe%20wohl%20gef%C3%BChlt.png" alt="In der Gruppe wohlgefühlt" crossorigin="anonymous">
-                </div>
-                <div class="action-item" draggable="true" data-action="7">
-                    <img src="https://sharonmabel.github.io/Feedback/images/Ich%20habe%20mich%20unterst%C3%BCtzt%20gef%C3%BChlt.png" alt="Unterstützt gefühlt" crossorigin="anonymous">
-                </div>
-                <div class="action-item" draggable="true" data-action="8">
-                    <img src="https://sharonmabel.github.io/Feedback/images/Ich%20habe%20um%20Hilfe%20gebeten%20wenn%20ich%20sie%20gebraucht%20habe.png" alt="Um Hilfe gebeten" crossorigin="anonymous">
-                </div>
-                <div class="action-item" draggable="true" data-action="9">
-                    <img src="https://sharonmabel.github.io/Feedback/images/Ich%20hatte%20gen%C3%BCgend%20Zeit%2C%20meine%20Aufgabe%20zu%20erledigen.png" alt="Genügend Zeit gehabt" crossorigin="anonymous">
-                </div>
-                <div class="action-item" draggable="true" data-action="10">
-                    <img src="https://sharonmabel.github.io/Feedback/images/Ich%20konnte%20die%20Aufgabe%20gut%20verstehen.png" alt="Aufgabe gut verstanden" crossorigin="anonymous">
-                </div>
-                <div class="action-item" draggable="true" data-action="11">
-                    <img src="https://sharonmabel.github.io/Feedback/images/Ich%20konnte%20heute%20etwas%20Neues%20lernen.png" alt="Etwas Neues gelernt" crossorigin="anonymous">
-                </div>
-                <div class="action-item" draggable="true" data-action="12">
-                    <img src="https://sharonmabel.github.io/Feedback/images/Ich%20war%20mit%20meiner%20Arbeit%20zufrieden%20heute.png" alt="Mit der Arbeit zufrieden" crossorigin="anonymous">
-                </div>
-            </div>
-        </aside>
-        <main class="main-content">
-            <div class="header-section">
-                <h1>Feedback zur Unterrichtseinheit😊</h1>
-                <div class="form-controls">
-                    <div class="input-group">
-                        <div class="form-group">
-                            <label for="name">Name:</label>
-                            <input type="text" id="name" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="date">Datum:</label>
-                            <input type="date" id="date" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="unit">Unterrichtseinheit:</label>
-                            <input type="text" id="unit" required>
+
+                <!-- Kategorien mit Aktionen -->
+                <div class="categories-wrapper">
+                    <div class="category-column" id="agree">
+                        <h4>Stimme ich zu</h4>
+                        <div class="drop-container">
+                            <!-- Drag-and-Drop Aktionen hierhin ziehen -->
                         </div>
                     </div>
-                    <button type="button" id="save-button" onclick="saveFullPageScreenshot()" class="primary-button">
-                        Feedback speichern
-                    </button>                    
-                    
+                    <div class="category-column" id="neutral">
+                        <h4>Weiß nicht</h4>
+                        <div class="drop-container">
+                            <!-- Drag-and-Drop Aktionen hierhin ziehen -->
+                        </div>
+                    </div>
+                    <div class="category-column" id="disagree">
+                        <h4>Stimme ich nicht zu</h4>
+                        <div class="drop-container">
+                            <!-- Drag-and-Drop Aktionen hierhin ziehen -->
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="feedback-section">
-                <div class="form-group">
+                <!-- Freitextfeld -->
+                <div class="form-section">
                     <label for="feedback">Freitext:</label>
                     <textarea id="feedback" rows="4" placeholder="Schreibe hier deine Meinung (optional)"></textarea>
                 </div>
-                
-                <h3>Ziehe die Aktionen in die passenden Kategorien:</h3>
-                <div class="horizontal-categories">
-                    <div class="category" id="agree">
-                        <h4>Stimme ich zu</h4>
-                        <div class="drop-container"></div>
-                    </div>
-                    <div class="category" id="neutral">
-                        <h4>Weiß nicht</h4>
-                        <div class="drop-container"></div>
-                    </div>
-                    <div class="category" id="disagree">
-                        <h4>Stimme ich nicht zu</h4>
-                        <div class="drop-container"></div>
-                    </div>
+
+                <!-- Speichern Button -->
+                <div class="form-section">
+                    <button type="button" id="save-button" onclick="saveAsPNG()">Speichern</button>
                 </div>
-            </div>
+            </form>
         </main>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
