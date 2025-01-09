@@ -122,3 +122,33 @@ body {
     border-radius: 4px;
     margin-top: 1em;
 }
+.sidebar {
+    width: 300px;
+    padding: 1em;
+    background: #f4f4f4;
+    border-right: 1px solid #ddd;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.action-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding-right: 10px;
+}
+
+.action-item {
+    background: white;
+    padding: 8px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.action-item img {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
